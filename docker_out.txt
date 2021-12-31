@@ -1,0 +1,25 @@
+  from ._gradient_boosting import predict_stages
+ * Debugger is active!
+ * Debugger PIN: 157-526-277
+[2021-12-31 01:22:11,072] INFO in app: JSON payload:
+{'CHAS': {'0': 0}, 'RM': {'0': 6.575}, 'TAX': {'0': 296.0}, 'PTRATIO': {'0': 15.3}, 'B': {'0': 396.9}, 'LSTAT': {'0': 4.98}}
+[2021-12-31 01:22:11,094] INFO in app: Inference payload DataFrame:
+   CHAS     RM    TAX  PTRATIO      B  LSTAT
+0     0  6.575  296.0     15.3  396.9   4.98
+[2021-12-31 01:22:11,111] INFO in app: Scaling Payload:
+   CHAS     RM    TAX  PTRATIO      B  LSTAT
+0     0  6.575  296.0     15.3  396.9   4.98
+[2021-12-31 01:22:11,115] INFO in app: Output predictions:
+[20.35373177134412]
+172.17.0.1 - - [31/Dec/2021 01:22:11] "POST /predict HTTP/1.1" 200 -
+[2021-12-31 01:22:24,678] INFO in app: JSON payload:
+{'CHAS': {'0': 0}, 'RM': {'0': 6.575}, 'TAX': {'0': 296.0}, 'PTRATIO': {'0': 15.3}, 'B': {'0': 396.9}, 'LSTAT': {'0': 4.98}}
+[2021-12-31 01:22:24,700] INFO in app: Inference payload DataFrame:
+   CHAS     RM    TAX  PTRATIO      B  LSTAT
+0     0  6.575  296.0     15.3  396.9   4.98
+[2021-12-31 01:22:24,718] INFO in app: Scaling Payload:
+   CHAS     RM    TAX  PTRATIO      B  LSTAT
+0     0  6.575  296.0     15.3  396.9   4.98
+[2021-12-31 01:22:24,722] INFO in app: Output predictions:
+[20.35373177134412]
+172.17.0.1 - - [31/Dec/2021 01:22:24] "POST /predict HTTP/1.1" 200 -
