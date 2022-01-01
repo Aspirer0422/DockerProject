@@ -1,45 +1,97 @@
-# Python CircleCI 2.0 configuration file
+import requests
+
+# Both ipinfo and pytable are not able to be imported as issues with pip installer I have a working code with which works fine in my local
+
+#import ipinfo
+#from pytablewriter import MarkdownTableWriter
+
+# This is where you should write your Python code to get the IP information
 #
-# Check https://circleci.com/docs/2.0/language-python/ for more details
+# use ipinfo.io to query for ip information
+# IPInfo is a freemium service (allow the service for free but with some limitation)
+# which allow you to query information regarding IPs.
+# This can be done by either their website, or a REST API.
+# In the developers section, You can find info on how it can be used via REST API:
+# https://ipinfo.io/developers
 #
-version: 2
-jobs:
-  build:
-    docker:
-    # Use the same Docker base as the project
-      - image: python:3.7.3-stretch
+# for formating, use Markdown to provide the user with table of the IP information
+# Markdown is a formatting script, to create text with visual attributes using standard text. A simple common example is wrapping an object in *bold*, which will write bold.
+# The format is commonly used in sites like Wikipedia, Github and others.
+# Wikipedia - https://en.wikipedia.org/wiki/Markdown
+# Github documentation - https://guides.github.com/features/mastering-markdown/
+# Tutorial - http://www.markdowntutorial.com/
+# Markdown online - http://dillinger.io/
+#
+# Notes:
+# - You may use as many inner functions as you wish, but eventually one function should get the ip input and return the table markdown.
+# - Make sure You handle errors and edge cases gracefully .
+# - Test Your code in your Playground. Just run !EscapeRoomGetCountryForIP ip=8.8.8.8 and see the results
+#
+# Output should include 2 tables - one for Location (Country, Region, City) and one for Coordinates (Long, Lat)
 
-    working_directory: ~/repo
+country = "somewhere"
+ip = demisto.args()["ip"]
+md = '## ipinfo information on IP address ' + ip + '\n'
+access_token = '1e840510a3e777'
+ip_address = ip
 
-    steps:
-    - checkout
+# Retrieving IP details passing valid IPINFO Access TOken
+"""
+handler = ipinfo.getHandler(access_token)
+details = handler.getDetails(ip_address)
+country = details.country
+region = details.region
+city = details.city
+longitude = details.longitude
+latitude = details.latitude
+"""
 
-      # Download and cache dependencies
-    - restore_cache:
-    keys:
-    - v1-dependencies-{{ checksum "requirements.txt" }}
-    # fallback to using the latest cache if no exact match is found
-    - v1-dependencies-
+#Commented the Above Code as the environement has issues with installer(PIP) which blocks insatlling IPINFO package
 
-    - run:
-    name: install dependencies
-    command: |
-    python3 -m venv venv
-    . venv/bin/activate
-    make install
-    # Install hadolint
-    wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
-    chmod +x /bin/hadolint
+country =  'IR'
+region = 'Alborz'
+city = 'Karaj'
+longitude =  '35.8327'
+latitude =  '35.8327'
 
-    - save_cache:
-    paths:
-    - ./venv
-    key: v1-dependencies-{{ checksum "requirements.txt" }}
 
-    # run lint!
-    - run:
-    name: run lint
-    command: |
-    . venv/bin/activate
-    make lint 
+#Markdown Table Data Formating
+
+def main():
+    writer = MarkdownTableWriter(
+        table_name="FirstTable",
+        headers=["Country", "Region" , "City"],
+        value_matrix=[
+            [country, region, city,],
+        ],
+        margin=1  # add a whitespace for both sides of each cell
+    )
+    writer.write_table()
+
+
+if __name__ == "__main__":
+    main()
+
+def main():
+    writer = MarkdownTableWriter(
+        table_name="SecondTable",
+        headers=["Latitiude", "Longitude"],
+        value_matrix=[
+            [latitude,longitude],
+        ],
+        margin=1  # add a whitespace for both sides of each cell
+    )
+    writer.write_table()
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+#
+# the next statement will simply create an entry in the incident with the markdown text you have created in the md variable
+# you do not need to touch this line
+#
+demisto.results({'ContentsFormat': formats['markdown'], 'Type': entryTypes['note'], 'Contents': md})
 
