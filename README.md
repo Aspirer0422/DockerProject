@@ -48,3 +48,15 @@ source .devops/bin/activate
 * Setup and Configure Kubernetes locally
 * Create Flask app in Container
 * Run via kubectl
+
+Executing the scripts:
+Ensure the project environment is setup correctly. Ensure python 3.7 is installed and the class path is set. In Windows use the following command in the project directory to create virtual environment and activate it.
+python -m venv devops
+then activate the venv created
+After navigating to the destine folder ensure the Makefile is updated with required details, if there are intendation error, Make will throw error. Once the issues are resolved on the termail where the local environment is enabled, hit "make install" then hit make installhadolint
+Ensure the Docker file is having the right details. Verify the port is exposed and it has the CMD command to run app.py file on startup. Once Docker file is completed run the command "make lint" to ensure no errors in the terminal.
+Ensure the run_docker.sh files has the proper details to create docker image with tag attribute and exposing the port as expected. run the file as ./run_docker.sh
+run the make_prediction.sh to see the app is working and capture the output.Run the file as ./make_prediction.sh
+run the upload_docker.sh to upload the docker image create in previous step into Dockerhub. Please ensure the tag used in previous steps for docker image creaiton is mentioned in this upload script also. Ensure the correct username is given.Run the file as ./upload_docker.sh
+once you have minikube installed, open the termail and hit the command "minikube start", this will create a image in docker and minikube will start with a cluster.
+execute the run_kubernetes.sh with the command ./run_kubernetes.sh . This command will try creating a pod. Ensure thhat pod is running using the command "kub
